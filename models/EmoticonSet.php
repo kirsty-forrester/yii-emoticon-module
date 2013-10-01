@@ -132,27 +132,44 @@ class EmoticonSet extends CActiveRecord
 		);
 
 	}
-
+  
+  /**
+	 * Shortcut method for finding all sets by URL slug
+	 * @param string $slug URL slug
+	 */
 	public static function findBySlug($slug)
 	{
 		return self::model()->findByAttributes(array('slug' => $slug));
 	}
-
+  
+  /**
+	 * Shortcut method for finding the id from a URL slug
+	 * @param string $slug URL slug
+	 */
 	public static function getIdFromSlug($slug)
 	{
 		return self::findBySlug($slug)->id;
 	}
-
+  
+  /**
+	 * Get the previous emoticon set, ordered by creation date ASC
+	 */
 	public function getPrevious()
 	{
 		return self::model()->find('id < :id', array(':id' => $this->id));
 	}
-
+  
+  /**
+	 * Get the next emoticon set, ordered by creation date ASC
+	 */
 	public function getNext()
 	{
 		return self::model()->find('id > :id', array(':id' => $this->id));
 	}
-
+  
+  /**
+	 * Return the allowed values for visibility
+	 */
 	public function getVisibleValues()
 	{
 		return array(1 => 'Visible', 0 => 'Hidden');

@@ -154,18 +154,7 @@ class Emoticon extends CActiveRecord
 			'with' => 'set',
 		);
 	}
-
-	public function createUniqueCode($code)
-	{
-		$counter = 0;
-		$results = self::model()->findAllByAttributes(array('code' => ':' . $code . ':'));
-
-        foreach($results as $result){
-            $checkCode = sprintf('%s%d', $code, ++$counter);
-        }
-
-        return $counter > 0 ? $checkCode : $code;
-	}
+  
 
 	public function afterFind()
 	{
@@ -227,15 +216,45 @@ class Emoticon extends CActiveRecord
 		$this->height = $dimensions['height'];	
 	}
 	
+	/**
+	 * Check to see if the insertion code for the emoticon is unique
+	 * @param string $code the desired code
+	 */
+	public function createUniqueCode($code)
+	{
+		$counter = 0;
+		$results = self::model()->findAllByAttributes(array('code' => ':' . $code . ':'));
+
+    foreach($results as $result){
+        $checkCode = sprintf('%s%d', $code, ++$counter);
+    }
+
+    return $counter > 0 ? $checkCode : $code;
+	}
+	
 	public function beforeDelete()
 	{
-        $folder = $this->set->slug;
-        $path = Yii::app()->controller->module->uploadPath . $folder . '/';
+      $folder = $this->set->slug;
+      $path = Yii::app()->controller->module->uploadPath . $folder . '/';
 	    unlink($path . $this->file_name);
 
 	    return parent::beforeDelete();
 	}
 	
+	public function afterSave()
+	{
+		if($this->isNewRecord){
+			$dimensions = $this->getDimensions();
+			$this->width = $dimensions['width'];
+			$this->height = $dimensions['height'];
+		}
+		return parent::afterSave();
+	}
+	
+	/**
+	 * Gets all emoticons that belong to a particular set
+	 * @param string $set the URL slug for the set
+	 */
 	public function bySet($set)
 	{
 		if(!empty($set)){
@@ -250,7 +269,10 @@ class Emoticon extends CActiveRecord
 
 		return $this;
 	}
-
+  
+  /**
+	 * Gets the image URL for the emoticon
+	 */
 	public function getImageUrl($publicPath = false)
 	{
 		if(!$publicPath){
@@ -259,6 +281,10 @@ class Emoticon extends CActiveRecord
 		return $publicPath . $this->set->slug . '/' . $this->file_name;
 	}
 	
+	/**
+	 * Sets the new ordering position of the emoticon based on user input
+	 * @param string $direction whether the user wants to move the emoticon up or down
+	 */
 	public function setNewPosition($direction)
 	{
   	$numOrdered = $this->set->countOrdered();
@@ -273,17 +299,11 @@ class Emoticon extends CActiveRecord
           $this->position++;
     }
 	}
-
-	public function afterSave()
-	{
-		if($this->isNewRecord){
-			$dimensions = $this->getDimensions();
-			$this->width = $dimensions['width'];
-			$this->height = $dimensions['height'];
-		}
-		return parent::afterSave();
-	}
-
+  
+  /**
+	 * Gets the dimensions of the emoticon
+	 * @param string $folder the folder where the emoticon is stored. Defaults to the set's slug
+	 */
 	public function getDimensions($folder = false)
 	{
 		if(!$folder) $folder = $this->set->slug;

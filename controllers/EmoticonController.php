@@ -3,29 +3,29 @@
 class EmoticonController extends EController
 {
 	/**
-     * Methods in this class:
-     *
-     * init()
-     * createModels()
-     * createModelsFromZip()
-     * actionCreate()
-     * actionUpdate()
-     * actionLoad()
-     */
+   * Methods in this class:
+   *
+   * init()
+   * createModels()
+   * createModelsFromZip()
+   * actionCreate()
+   * actionUpdate()
+   * actionLoad()
+   */
     
 	/**
-     * Methods inherited from EController:
-     * 
-     * actionView()
-     * actionIndex()
-     * actionOrder()
-     * actionUpdateColumn()
-     * actionUpdateSelected()
-     * actionDelete()
-     * actionDeleteSelected()
-     * performAjaxValidation()
-     * loadModel()
-     */
+   * Methods inherited from EController:
+   * 
+   * actionView()
+   * actionIndex()
+   * actionOrder()
+   * actionUpdateColumn()
+   * actionUpdateSelected()
+   * actionDelete()
+   * actionDeleteSelected()
+   * performAjaxValidation()
+   * loadModel()
+   */
 
   public $path, $uploadPath, $publicPath, $allowedMimeTypes;
 

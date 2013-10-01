@@ -2,14 +2,14 @@
 
 class DefaultController extends Controller
 {
-    public function actionIndex()
+  public function actionIndex()
 	{  
-        $emoticonSets = EmoticonSet::model()->with('emoticons')->search();
-        $emoticonSets->pagination->pageSize = 9;
+    $emoticonSets = EmoticonSet::model()->with('emoticons')->search();
+    $emoticonSets->pagination->pageSize = 9;
 
-        $emoticon = Emoticon::model()->sets()->findAll();
-        $this->render('index', array(
-            'emoticonSets' => $emoticonSets,
-        ));
+    $emoticon = Emoticon::model()->sets()->findAll();
+    $this->render('index', array(
+        'emoticonSets' => $emoticonSets,
+    ));
 	}
 }

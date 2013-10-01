@@ -40,18 +40,6 @@ class EmoticonsModule extends CWebModule
 		  Yii::app()->db->tablePrefix = '';
 	}
 
-	public function beforeControllerAction($controller, $action)
-	{
-		if(parent::beforeControllerAction($controller, $action))
-		{
-			// this method is called before any module controller action is performed
-			// you may place customized code here
-			return true;
-		}
-		
-		return false;
-	}
-
 	/**
 	* @return string the base URL that contains all published asset files of this module.
 	*/
@@ -69,7 +57,7 @@ class EmoticonsModule extends CWebModule
 	}
 
 	protected function publishAssets($loadAssets=true)
-    {
+  {
         $publish = Yii::app()->assetManager->publish(Yii::getPathOfAlias('application.modules.emoticons').'/assets/',false,-1,$this->forceCopy);
 
         if($loadAssets)

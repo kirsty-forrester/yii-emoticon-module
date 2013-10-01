@@ -2,7 +2,7 @@
 
 class EmoticonParser extends CWidget
 {
-
+  
     public static function parse($text)
     {
         $module = Yii::app()->getModule('emoticons');
